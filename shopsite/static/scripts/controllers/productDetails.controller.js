@@ -5,9 +5,9 @@
 
 	app.controller("ProductDetailsController", ProductDetailsController);
 
-	ProductDetailsController.$inject = ['$scope', '$stateParams', 'Api'];
+	ProductDetailsController.$inject = ['$scope', '$stateParams', 'Api', 'users'];
 
-	function ProductDetailsController($scope, $stateParams, Api) {
+	function ProductDetailsController($scope, $stateParams, Api, users) {
 		$scope.product = Api.products.get({id: $stateParams.id});
 	}
 })()

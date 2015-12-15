@@ -25,7 +25,7 @@
 					isArray: true,
 				}
 			}),
-			orders: $resource("/api/v1/orders\/:id", {id: '@id'}, {
+			orders: $resource("/api/v1/orders/:id", {id: '@id'}, {
 				update: {
 					method: 'PUT'
 				},
@@ -39,7 +39,18 @@
 			        ]),
 					isArray: true,
 				}
-			})
+			}),
+			users: $resource("/api/v1/users/:id", {id: '@id'}, {
+				query: {
+					method: 'GET',
+					transformResponse: $http.defaults.transformResponse.concat([
+			            function (data, headersGetter) {
+			                return data.objects;
+			            }
+			        ]),
+					isArray: true,
+				}
+			}),
 		};
 
 		return api;

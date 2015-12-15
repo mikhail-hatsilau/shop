@@ -5,10 +5,9 @@
 
 	app.controller("ProductsController", ProductsController);
 
-	ProductsController.$inject = ['$scope', 'Api'];
+	ProductsController.$inject = ['$scope', 'Api', 'users'];
 
-	function ProductsController($scope, Api){
-
+	function ProductsController($scope, Api, users){
 		$scope.products = Api.products.query();
 
 		$scope.addToCart = addToCart;
@@ -16,7 +15,7 @@
 		function addToCart(product){
 			var order = new Api.orders();
 
-			order.user = "/api/v1/users/2/";
+			order.user = users[0].resource_uri;
 			order.product = product.resource_uri;
 			order.date = new Date();
 

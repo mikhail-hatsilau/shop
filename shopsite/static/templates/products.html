@@ -3,7 +3,7 @@
 	<div class="product-card" ng-repeat="product in products">
 		<div class="image"><img ng-src="{{product.image}}" alt=""></div>
 		<div class="title">
-			<a ui-sref="details({id: product.id})">{{product.name}}</a>
+			<a ui-sref="main.details({id: product.id})">{{product.name}}</a>
 		</div>
 		<div class="price">
 			Price: {{product.price}}
