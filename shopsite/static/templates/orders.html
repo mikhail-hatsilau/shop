@@ -1,0 +1,20 @@
+<div class="orders-list">
+	<div class="row" ng-repeat="order in orders">
+		<div class="col-md-2">
+			<img ng-src="{{order.product.image}}" alt="image">
+		</div>
+		<div class="col-md-10">
+			<div class="title">
+				<a href="" ui-sref="main.details({id: order.product.id})">{{order.product.name}}</a>
+			</div>
+			<div class="discription">
+				{{order.product.discription}}
+			</div>
+			<div class="order-date">
+				Date: {{order.date}}
+			</div>
+		</div>
+		<a href="" class="remove" ng-click="removeOrder(order)"><span class="glyphicon glyphicon-remove"></span></a>
+	</div>
+</div>
+<div ng-if="!orders.length">Your cart is empty</div>
