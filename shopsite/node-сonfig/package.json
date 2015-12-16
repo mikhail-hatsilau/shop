@@ -1,0 +1,30 @@
+{
+  "name": "shop",
+  "version": "1.0.0",
+  "description": "Simple shop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikhail-hatsilau/shop.git"
+  },
+  "author": "Mikhail Hatsilau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikhail-hatsilau/shop/issues"
+  },
+  "homepage": "https://github.com/mikhail-hatsilau/shop#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bower-concat": "^0.6.0",
+    "grunt-contrib-coffee": "^0.13.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-uglify": "^0.11.0",
+    "grunt-filerev": "^2.3.1",
+    "grunt-usemin": "^3.1.1"
+  }
+}
