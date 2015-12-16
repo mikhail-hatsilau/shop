@@ -1,6 +1,6 @@
 (function(){
-	'use strict'
+  'use strict'
 
-	angular.module("shopApp", ['ui.router', 'ngResource']);
+  angular.module("shopApp", ['ui.router', 'ngResource']);
 
 })();

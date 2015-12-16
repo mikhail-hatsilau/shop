@@ -1,13 +1,13 @@
 (function(){
-	'use strict'
+  'use strict'
 
-	var app = angular.module("shopApp");
+  var app = angular.module("shopApp");
 
-	app.controller("ProductDetailsController", ProductDetailsController);
+  app.controller("ProductDetailsController", ProductDetailsController);
 
-	ProductDetailsController.$inject = ['$scope', '$stateParams', 'Api', 'users'];
+  ProductDetailsController.$inject = ['$scope', '$stateParams', 'Api', 'users'];
 
-	function ProductDetailsController($scope, $stateParams, Api, users) {
-		$scope.product = Api.products.get({id: $stateParams.id});
-	}
+  function ProductDetailsController($scope, $stateParams, Api, users) {
+    $scope.product = Api.products.get({id: $stateParams.id});
+  }
 })();
