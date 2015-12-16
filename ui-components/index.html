@@ -4,8 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 
-	<link rel="stylesheet" href="static/styles/vendor/bootstrap.min.css">
-	<link rel="stylesheet" href="static/styles/styles.css">
+	<!-- build:css static/styles/styles.css-->
+	<link rel="stylesheet" href="styles/plugins.css">
+	<link rel="stylesheet" href="styles/styles.css">
+	<!-- endbuild -->
 </head>
 <body>
 	<div class="page-wrapper">
@@ -42,16 +44,15 @@
 		</div>
 	</div>
 
-	<script src="static/scripts/vendor/jquery.min.js"></script>
-	<script src="static/scripts/vendor/bootstrap.min.js"></script>
-	<script src="static/scripts/vendor/angular.min.js"></script>
-	<script src="static/scripts/vendor/angular-resource.min.js"></script>
-	<script src="static/scripts/vendor/angular-ui-router.min.js"></script>
-	<script src="static/scripts/modules/app.module.js"></script>
-	<script src="static/scripts/services/api.service.js"></script>
-	<script src="static/scripts/controllers/products.controller.js"></script>
-	<script src="static/scripts/controllers/productDetails.controller.js"></script>
-	<script src="static/scripts/controllers/orders.controller.js"></script>
-	<script src="static/scripts/app.js"></script>
+	<!-- build:js static/scripts/scripts.js-->
+	<script src="scripts/plugins.js"</script>
+	<script src="scripts/coffeeScripts.js"></script>
+	<script src="scripts/modules/app.module.js"></script>
+	<script src="scripts/services/api.service.js"></script>
+	<script src="scripts/controllers/products.controller.js"></script>
+	<script src="scripts/controllers/productDetails.controller.js"></script>
+	<script src="scripts/controllers/orders.controller.js"></script>
+	<script src="scripts/app.js"></script>
+	<!-- endbuild -->
 </body>
 </html>
