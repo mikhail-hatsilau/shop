@@ -1,9 +1,10 @@
 from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.authentication import BasicAuthentication
-from tastypie.authorization import Authorization
 from django.contrib.auth.models import User
-from shop.models import Product, Order
+from shop.models import Product, Order, Category
+from shop.UserAuthorization import UserAuthorization
+import waffle
 
 
 class UserResource(ModelResource):
@@ -11,27 +12,34 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = "users"
-        list_allowed_methods = ['get']
-        detail_allowed_methods = ['get']
         fields = ['id', 'username', 'email']
         authentication = BasicAuthentication()
-        authorization = Authorization()
+        authorization = UserAuthorization()
 
-    def get_object_list(self, request):
-        object_list = super(UserResource, self).get_object_list(request)
-        return object_list.filter(pk=request.user.pk)
+    def dehydrate(self, bundle):
+        bundle.data['isSeller'] = waffle.flag_is_active(bundle.request,
+                                                        'isSeller')
+        return bundle
+
+
+class CategoryResource(ModelResource):
+
+    class Meta:
+        queryset = Category.objects.all()
+        resource_name = 'categories'
+        authentication = BasicAuthentication()
+        authorization = UserAuthorization()
 
 
 class ProductResource(ModelResource):
-    users = fields.ToManyField(UserResource, "users", full=True)
+    category = fields.ToOneField(CategoryResource, 'category', full=True)
 
     class Meta:
         queryset = Product.objects.all()
         resource_name = "products"
-        list_allowed_methods = ['get']
-        detail_allowed_methods = ['get']
+        always_return_data = True
         authentication = BasicAuthentication()
-        authorization = Authorization()
+        authorization = UserAuthorization()
 
     def dehydrate(self, bundle):
         current_user = bundle.request.user
@@ -53,8 +61,4 @@ class OrderResource(ModelResource):
         queryset = Order.objects.all()
         resource_name = "orders"
         authentication = BasicAuthentication()
-        authorization = Authorization()
-
-    def get_object_list(self, request):
-        object_list = super(OrderResource, self).get_object_list(request)
-        return object_list.filter(user=request.user)
+        authorization = UserAuthorization()

@@ -1,0 +1,24 @@
+<form name="newProduct" ng-submit="save(newProduct.$valid)" novalidate>
+  <div>
+    <label for="product-name">Product name:</label>
+    <input type="text" id="product-name" class="form-control" placeholder="Name" ng-model="product.name" required>
+  </div>
+  <div>
+    <label for="product-description">Product discription:</label>
+    <textarea id="product-description" class="form-control" ng-model="product.discription" placeholder="Discription" required></textarea>
+  </div>
+  <div>
+    <label for="product-price">Price:</label>
+    <input type="text" id="product-price" class="form-control" placeholder="Price" ng-model="product.price" ng-pattern="/^\d+\.?\d{0,2}$/" required>
+  </div>
+  <div>
+    <label for="product-category">Category:</label>
+    <select type="text" id="product-category" class="form-control" ng-model="product.category" required>
+      <option ng-repeat="category in categories" value="{{category.resource_uri}}">{{category.name}}</option>
+    </select>
+  </div>
+  <div class="popup-controls">
+    <input type="submit" class="btn btn-primary" value="Save">
+    <input type="button" value="Cancel" ng-click="cancel()" class="btn btn-danger">
+  </div>
+</form>

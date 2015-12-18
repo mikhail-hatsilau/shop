@@ -14,7 +14,7 @@
       resolve: {
         users: ["$rootScope", "Api", function($rootScope, Api) {
           return Api.users.query(function(users){
-            $rootScope.userName = users[0].username;
+            $rootScope.user = users[0];
           });
         }]
       }
@@ -31,8 +31,13 @@
     }).
     state("main.orders", {
       url: "/orders",
-      templateUrl: "static/templates/orders.html",
+      templateUrl: "/static/templates/orders.html",
       controller: "OrdersController"
+    }).
+    state("main.newProduct", {
+      url: "/product/new",
+      templateUrl: "/static/templates/new-product.html",
+      controller: "NewProductController"
     });
   }]);
 

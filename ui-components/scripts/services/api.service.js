@@ -18,10 +18,10 @@
         query: {
           method: 'GET',
           transformResponse: $http.defaults.transformResponse.concat([
-                  function (data, headersGetter) {
-                      return data.objects;
-                  }
-              ]),
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
           isArray: true,
         }
       }),
@@ -33,10 +33,10 @@
         query: {
           method: 'GET',
           transformResponse: $http.defaults.transformResponse.concat([
-                  function (data, headersGetter) {
-                      return data.objects;
-                  }
-              ]),
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
           isArray: true,
         }
       }),
@@ -44,10 +44,21 @@
         query: {
           method: 'GET',
           transformResponse: $http.defaults.transformResponse.concat([
-                  function (data, headersGetter) {
-                      return data.objects;
-                  }
-              ]),
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
+          isArray: true,
+        }
+      }),
+      categories: $resource('/api/v1/categories/:id', {id: '@id'}, {
+        query: {
+          method: 'GET',
+          transformResponse: $http.defaults.transformResponse.concat([
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
           isArray: true,
         }
       }),
