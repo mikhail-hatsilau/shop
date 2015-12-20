@@ -1,15 +1,13 @@
 <div class="products-title clearfix">All poducts
   <div class="filters">
-    <select name="categories" ng-model="categoryObj.category.id" class="form-control">
-      <option value="">All categories</option>
-      <option ng-repeat="categ in categories" value="{{categ.id}}">{{categ.name}}</option>
+    <select name="categories" ng-model="selected" class="form-control" ng-options="item as item.name for item in categories track by item.id" ng-change="updateCategory()">
     </select>
     <input type="text" placeholder="Type name" class="form-control" ng-model="search.name">
     <a href="" ng-if="user.isSeller" class="add-new btn btn-primary" ng-click="openAddNewPopup()">Add new</a>
   </div>
 </div>
 <div class="products">
-  <div class="product-card" ng-repeat="product in products | filter:search | filter:categoryObj">
+  <div class="product-card" ng-repeat="product in products | filter:search">
     <div class="image"><img ng-src="{{product.image}}" alt=""></div>
     <div class="title">
       <a ui-sref="main.details({id: product.id})">{{product.name}}</a>
@@ -22,4 +20,7 @@
       <div ng-if="product.inOrder">This product is already in the cart</div>
     </div>
   </div>
+</div>
+<div class="pagination">
+  <uib-pagination total-items="meta.total_count" items-per-page="meta.limit" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>  
 </div>

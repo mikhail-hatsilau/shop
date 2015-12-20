@@ -1,4 +1,4 @@
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.authentication import BasicAuthentication
 from django.contrib.auth.models import User
@@ -29,6 +29,9 @@ class CategoryResource(ModelResource):
         resource_name = 'categories'
         authentication = BasicAuthentication()
         authorization = UserAuthorization()
+        filtering = {
+            'id': ALL
+        }
 
 
 class ProductResource(ModelResource):
@@ -40,6 +43,9 @@ class ProductResource(ModelResource):
         always_return_data = True
         authentication = BasicAuthentication()
         authorization = UserAuthorization()
+        filtering = {
+            'category': ALL_WITH_RELATIONS
+        }
 
     def dehydrate(self, bundle):
         current_user = bundle.request.user
