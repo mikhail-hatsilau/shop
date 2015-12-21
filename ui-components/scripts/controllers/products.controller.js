@@ -5,20 +5,23 @@
 
   app.controller("ProductsController", ProductsController);
 
-  ProductsController.$inject = ['$scope', 'Api', 'users', '$uibModal', '$cacheFactory'];
+  ProductsController.$inject = ['$scope', 'Api', 'users', '$uibModal', '$cacheFactory', 'localStorageService'];
 
-  function ProductsController($scope, Api, users, $uibModal, $cacheFactory){
+  function ProductsController($scope, Api, users, $uibModal, $cacheFactory, localStorageService){
 
-    var cache = $cacheFactory.get('productsCash');
+    var cache = $cacheFactory.get('productsCache'),
+        selectedKey = 'selectedItem';
+
     if (angular.isUndefined(cache)){
-      cache = $cacheFactory('productsCash');
+      cache = $cacheFactory('productsCache');
     } 
 
     $scope.categories = Api.categories.query(function(){
       if ($scope.categories){
-        $scope.selected = cache.get('selectedCategory');
-        if (angular.isUndefined($scope.selected)){
+        $scope.selected = localStorageService.get(selectedKey);
+        if (angular.isUndefined($scope.selected) || $scope.selected === null || !$scope.categories.indexOf($scope.selected)){
           $scope.selected = $scope.categories[0];
+          localStorageService.set(selectedKey, $scope.selected);
         }
         loadProducts();
       }
@@ -38,9 +41,6 @@
         });
       }
     }
-
-    console.log($scope.products);
-    console.log($scope.meta);
 
     $scope.addToCart = addToCart;
     $scope.openAddNewPopup = openAddNewPopup;
@@ -77,7 +77,10 @@
 
       modalInstance = $uibModal.open(params);
       modalInstance.result.then(function(product){
-        $scope.products.push(product);
+        if ($scope.products.length < $scope.meta.limit){
+          $scope.products.push(product);
+        }
+        $scope.meta.totalCount++;
         addToCache();
       });
     }
@@ -102,7 +105,7 @@
 
     function updateCategory(){
       cache.removeAll();
-      cache.put('selectedCategory', $scope.selected);
+      localStorageService.set(selectedKey, $scope.selected);
       loadProducts();
     }
 
