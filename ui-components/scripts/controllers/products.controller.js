@@ -19,7 +19,7 @@
     $scope.categories = Api.categories.query(function(){
       if ($scope.categories){
         $scope.selected = localStorageService.get(selectedKey);
-        if (angular.isUndefined($scope.selected) || $scope.selected === null || !$scope.categories.indexOf($scope.selected)){
+        if (angular.isUndefined($scope.selected) || $scope.selected === null || $scope.categories.indexOf($scope.selected) === -1){
           $scope.selected = $scope.categories[0];
           localStorageService.set(selectedKey, $scope.selected);
         }
