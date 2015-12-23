@@ -9,7 +9,7 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 return object_list.filter(pk=bundle.request.user.pk)
         elif model_class == Order:
             return object_list.filter(user=bundle.request.user)
@@ -19,12 +19,12 @@ class UserAuthorization(Authorization):
     def read_detail(self, object_list, bundle):
         model_class = object_list.model
         if model_class == User:
-            if waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if bundle.request.user.is_superuser:
                 return True
             else:
                 return bundle.obj.pk == bundle.request.user.pk
         elif model_class == Order:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 return bundle.obj.user == bundle.request.user
 
         return True
@@ -33,7 +33,7 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 raise Unauthorized()
         elif model_class == Product or model_class == Category:
             if not waffle.flag_is_active(bundle.request, 'isSeller'):
@@ -45,13 +45,14 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 raise Unauthorized()
         elif model_class == Product or model_class == Category:
             if not waffle.flag_is_active(bundle.request, 'isSeller'):
                 raise Unauthorized()
         elif model_class == Order:
-            return bundle.obj.user == bundle.request.user
+            if not bundle.request.user.is_superuser:
+                return bundle.obj.user == bundle.request.user
 
         return True
 
@@ -59,7 +60,7 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == Order:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 allowed = []
 
                 for obj in object_list:
@@ -68,7 +69,7 @@ class UserAuthorization(Authorization):
 
                 return allowed
         elif model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 raise Unauthorized()
         elif model_class == Product or model_class == Category:
             if not waffle.flag_is_active(bundle.request, 'isSeller'):
@@ -80,13 +81,13 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 raise Unauthorized()
         elif model_class == Product or model_class == Category:
             if not waffle.flag_is_active(bundle.request, 'isSeller'):
                 raise Unauthorized()
         elif model_class == Order:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 return bundle.obj.user == bundle.request.user
         return True
 
@@ -94,13 +95,13 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 raise Unauthorized()
         elif model_class == Product or model_class == Category:
             if not waffle.flag_is_active(bundle.request, 'isSeller'):
                 raise Unauthorized()
         elif model_class == Order:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 allowed = []
 
                 for obj in object_list:
@@ -115,13 +116,13 @@ class UserAuthorization(Authorization):
         model_class = object_list.model
 
         if model_class == User:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 raise Unauthorized()
         elif model_class == Product or model_class == Category:
             if not waffle.flag_is_active(bundle.request, 'isSeller'):
                 raise Unauthorized()
         elif model_class == Order:
-            if not waffle.flag_is_active(bundle.request, 'isSuperUser'):
+            if not bundle.request.user.is_superuser:
                 return bundle.obj.user == bundle.request.user
 
         return True

@@ -19,13 +19,22 @@
     $scope.categories = Api.categories.query(function(){
       if ($scope.categories){
         $scope.selected = localStorageService.get(selectedKey);
-        if (angular.isUndefined($scope.selected) || $scope.selected === null || $scope.categories.indexOf($scope.selected) === -1){
+        var indexOfSelectedObj = indexOfObject();
+        if (angular.isUndefined($scope.selected) || $scope.selected === null || indexOfSelectedObj === -1){
           $scope.selected = $scope.categories[0];
           localStorageService.set(selectedKey, $scope.selected);
         }
         loadProducts();
       }
     });
+
+    function indexOfObject() {
+      var ids = $scope.categories.map(function(obj){
+        return obj.id;
+      });
+
+      return ids.indexOf($scope.selected.id);
+    }
 
     function loadProducts() {
       $scope.products = cache.get('products');

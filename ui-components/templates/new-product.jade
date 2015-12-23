@@ -3,29 +3,37 @@ form(name="newProduct"
      novalidate)
   div
     label(for="product-name") Product name:
-    input#product-name.form-control(type="text"
-                                    placeholder="Name"
-                                    ng-model="product.name"
-                                    required)
+    input#product-name.form-control(
+      type="text"
+      placeholder="Name"
+      ng-model="product.name"
+      required
+    )
   div
     label(for="product-description") Product discription:
-    input#product-description.form-control(type="text"
-                                           placeholder="Discription"
-                                           ng-model="product.discription"
-                                           required)
+    input#product-description.form-control(
+      type="text"
+      placeholder="Discription"
+      ng-model="product.discription"
+      required
+    )
   div
     label(for="product-price") Price:
-    input#product-price.form-control(type="text"
-                                     placeholder="Price"
-                                     ng-model="product.price"
-                                     ng-pattern="/^\d+\.?\d{0,2}$/"
-                                     required)
+    input#product-price.form-control(
+      type="text"
+      placeholder="Price"
+      ng-model="product.price"
+      ng-pattern="/^\\d+\\.?\\d{0,2}$/"
+      required
+    )
   div
     label(for="product-category") Category:
-    select#product-category.form-control(type="text"
-                                         ng-model="product.category",
-                                         ng-options="item as item.name for item in categories track by item.id"
-                                         required)
+    select#product-category.form-control(
+      type="text"
+      ng-model="product.category",
+      ng-options="item as item.name for item in categories track by item.id"
+      required
+    )
   div.popup-controls
     input(type="submit", class="btn btn-primary", value="Save")
     input(type="button", value="Cancel", ng-click="cancel()", class="btn btn-danger")
