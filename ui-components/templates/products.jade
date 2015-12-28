@@ -1,0 +1,29 @@
+.products-title.clearfix All poducts
+  .filters
+    select.form-control(
+      name="categories"
+      ng-model="selected"
+      ng-options="item as item.name for item in categories track by item.id"
+      ng-change="updateCategory()"
+    )
+    input.form-control(type="text", placeholder="Type name", ng-model="search.name")
+    a.add-new.btn.btn-primary(href="", ng-if="user.isSeller", ng-click="openAddNewPopup()") Add new
+.products
+  .product-card(ng-repeat="product in products | filter:search")
+    .image
+      img(ng-src="{{product.image}}", alt="")
+    .title
+      a(ui-sref="main.details({id: product.id})") {{product.name}}
+    .price Price: {{product.price | currency}}
+    .add-to-basket
+      button.btn.btn-primary(ng-if="!product.inOrder", ng-click="addToCart(product)").
+        #[span.glyphicon.glyphicon-shopping-cart]
+        Add to cart
+      div(ng-if="product.inOrder") This product is already in the cart
+.pagination
+  uib-pagination(
+    total-items="meta.total_count"
+    items-per-page="meta.limit"
+    ng-model="currentPage"
+    ng-change="pageChanged()"
+  )

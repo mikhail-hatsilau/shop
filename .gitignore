@@ -2,6 +2,11 @@
 ###################
 *.pyc
 *.*~
+*.html
 bower_components/
 node_modules/
 .tmp/
+shopsite/static/fonts
+shopsite/static/scripts
+shopsite/static/styles
+shopsite/static/templates

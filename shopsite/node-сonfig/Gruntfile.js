@@ -11,6 +11,27 @@ module.exports = function(grunt) {
       }
     },
 
+    jade: {
+      compile: {
+        options: {
+          pretty: true
+        },
+        files: [
+          {
+            dest: '../../ui-components/index.html',
+            src: '../../ui-components/index.jade'
+          },
+          {
+            cwd: '../../ui-components/templates',
+            dest: '../../ui-components/templates/',
+            src: '*.jade',
+            expand: true,
+            ext: '.html'
+          }
+        ]
+      }
+    },
+
     coffee: {
       compile: {
         files: [
@@ -66,6 +87,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-usemin');
+  grunt.loadNpmTasks('grunt-contrib-jade');
 
-  grunt.registerTask('build', ['bower_concat', 'coffee', 'copy', 'useminPrepare', 'concat:generated', 'usemin']);
+  grunt.registerTask('build', ['bower_concat', 'coffee', 'jade', 'copy', 'useminPrepare', 'concat:generated', 'usemin']);
 }

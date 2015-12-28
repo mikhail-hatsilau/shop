@@ -17,12 +17,14 @@
 
         query: {
           method: 'GET',
-          transformResponse: $http.defaults.transformResponse.concat([
-                  function (data, headersGetter) {
-                      return data.objects;
-                  }
-              ]),
-          isArray: true,
+          transformResponse: function (data, headersGetter) {
+              var jsonData = angular.fromJson(data);
+              angular.forEach(jsonData.objects, function(item, index){
+                jsonData.objects[index] = new api.products(item);
+              });
+              return jsonData;
+            },
+          isArray: false,
         }
       }),
       orders: $resource("/api/v1/orders/:id", {id: '@id'}, {
@@ -33,10 +35,10 @@
         query: {
           method: 'GET',
           transformResponse: $http.defaults.transformResponse.concat([
-                  function (data, headersGetter) {
-                      return data.objects;
-                  }
-              ]),
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
           isArray: true,
         }
       }),
@@ -44,10 +46,21 @@
         query: {
           method: 'GET',
           transformResponse: $http.defaults.transformResponse.concat([
-                  function (data, headersGetter) {
-                      return data.objects;
-                  }
-              ]),
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
+          isArray: true,
+        }
+      }),
+      categories: $resource('/api/v1/categories/:id', {id: '@id'}, {
+        query: {
+          method: 'GET',
+          transformResponse: $http.defaults.transformResponse.concat([
+            function (data, headersGetter) {
+              return data.objects;
+            }
+          ]),
           isArray: true,
         }
       }),

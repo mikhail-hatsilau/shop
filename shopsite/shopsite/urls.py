@@ -19,12 +19,14 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from tastypie.api import Api
-from shop.api.resources import ProductResource, OrderResource, UserResource
+from shop.api.resources import ProductResource, OrderResource
+from shop.api.resources import UserResource, CategoryResource
 
-api_v1 = Api(api_name = 'v1')
+api_v1 = Api(api_name='v1')
 api_v1.register(ProductResource())
 api_v1.register(OrderResource())
 api_v1.register(UserResource())
+api_v1.register(CategoryResource())
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

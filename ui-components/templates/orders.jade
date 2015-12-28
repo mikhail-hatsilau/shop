@@ -1,0 +1,12 @@
+.orders-list
+  .row(ng-repeat="order in orders")
+    .col-md-2
+      img(ng-src="{{order.product.image}}", alt="image")
+    .col-md-10
+      .title
+        a(href="", ui-sref="main.details({id: order.product.id})") {{order.product.name}}
+      .discription {{order.product.discription}}
+      .order-date Date: {{order.date}}
+    a.remove(href="", ng-click="removeOrder(order)")
+      span.glyphicon.glyphicon-remove
+div(ng-if="!orders.length") Your cart is empty
