@@ -3,7 +3,8 @@ from tastypie import fields
 from tastypie.authentication import BasicAuthentication
 from django.contrib.auth.models import User
 from shop.models import Product, Order, Category
-from shop.UserAuthorization import UserAuthorization
+from shop.Authorization import UserAuthorization, ProductCategoryAuthorization
+from shop.Authorization import OrderAuthorization
 import waffle
 
 
@@ -18,7 +19,7 @@ class UserResource(ModelResource):
 
     def dehydrate(self, bundle):
         bundle.data['isSeller'] = waffle.flag_is_active(bundle.request,
-                                                        'isSeller')
+                                                        'is_seller')
         return bundle
 
 
@@ -28,7 +29,7 @@ class CategoryResource(ModelResource):
         queryset = Category.objects.all()
         resource_name = 'categories'
         authentication = BasicAuthentication()
-        authorization = UserAuthorization()
+        authorization = ProductCategoryAuthorization()
         filtering = {
             'id': ALL
         }
@@ -42,7 +43,7 @@ class ProductResource(ModelResource):
         resource_name = "products"
         always_return_data = True
         authentication = BasicAuthentication()
-        authorization = UserAuthorization()
+        authorization = ProductCategoryAuthorization()
         filtering = {
             'category': ALL_WITH_RELATIONS
         }
@@ -67,4 +68,4 @@ class OrderResource(ModelResource):
         queryset = Order.objects.all()
         resource_name = "orders"
         authentication = BasicAuthentication()
-        authorization = UserAuthorization()
+        authorization = OrderAuthorization()

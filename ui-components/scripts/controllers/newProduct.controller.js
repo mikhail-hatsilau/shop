@@ -20,7 +20,6 @@
         return;
       }
       $scope.product.$save(function(data){
-        console.dir(data);
         $uibModalInstance.close(data);
       });
     }
