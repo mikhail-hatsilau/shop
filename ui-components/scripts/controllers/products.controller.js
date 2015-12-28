@@ -22,7 +22,7 @@
         if (angular.isUndefined($scope.selected) || $scope.selected === null){
           setSelected();
         } else {
-          if (!indexOfObject($scope.selected, $scope.categories)) {
+          if (!categoryExists($scope.selected, $scope.categories)) {
             setSelected();
           }
         }
@@ -35,16 +35,16 @@
       localStorageService.set(selectedKey, $scope.selected);
     }
 
-    function indexOfObject(obj, array) {
-      var ids = array.map(function(item){
-        return item.id;
+    function categoryExists(obj, array) {
+      var element = _.find(array, function(item) {
+        return item.id === obj.id;
       });
 
-      if (ids.indexOf(obj.id) === -1) {
+      if (!element) {
         return false;
       }
 
-      return true; 
+      return true;
     }
 
     function loadProducts() {
