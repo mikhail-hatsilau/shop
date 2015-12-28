@@ -19,21 +19,32 @@
     $scope.categories = Api.categories.query(function(){
       if ($scope.categories){
         $scope.selected = localStorageService.get(selectedKey);
-        var indexOfSelectedObj = indexOfObject();
-        if (angular.isUndefined($scope.selected) || $scope.selected === null || indexOfSelectedObj === -1){
-          $scope.selected = $scope.categories[0];
-          localStorageService.set(selectedKey, $scope.selected);
+        if (angular.isUndefined($scope.selected) || $scope.selected === null){
+          setSelected();
+        } else {
+          if (!indexOfObject($scope.selected, $scope.categories)) {
+            setSelected();
+          }
         }
         loadProducts();
       }
     });
 
-    function indexOfObject() {
-      var ids = $scope.categories.map(function(obj){
-        return obj.id;
+    function setSelected() {
+      $scope.selected = $scope.categories[0];
+      localStorageService.set(selectedKey, $scope.selected);
+    }
+
+    function indexOfObject(obj, array) {
+      var ids = array.map(function(item){
+        return item.id;
       });
 
-      return ids.indexOf($scope.selected.id);
+      if (ids.indexOf(obj.id) === -1) {
+        return false;
+      }
+
+      return true; 
     }
 
     function loadProducts() {
