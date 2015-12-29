@@ -1,5 +1,5 @@
 form(name="newProduct"
-     ng-submit="save(newProduct.$valid)"
+     ng-submit="save()"
      novalidate)
   div
     label(for="product-name") Product name:
@@ -34,6 +34,6 @@ form(name="newProduct"
       ng-options="item as item.name for item in categories track by item.id"
       required
     )
-  div.popup-controls
-    input(type="submit", class="btn btn-primary", value="Save")
-    input(type="button", value="Cancel", ng-click="cancel()", class="btn btn-danger")
+  .popup-controls
+    input.btn.btn-primary(type="submit", value="Save", ng-disabled="newProduct.$invalid")
+    input.btn.btn-danger(type="button", value="Cancel", ng-click="cancel()")

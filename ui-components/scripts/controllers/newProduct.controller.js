@@ -15,10 +15,7 @@
     $scope.cancel = cancel;
 
 
-    function save(formIsValid){
-      if (!formIsValid) {
-        return;
-      }
+    function save(){
       $scope.product.$save(function(data){
         $uibModalInstance.close(data);
       });

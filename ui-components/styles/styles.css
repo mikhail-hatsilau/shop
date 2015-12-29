@@ -171,7 +171,7 @@ html, body {
   margin-top: 30px;
 }
 
-.ng-submitted .form-control.ng-invalid {
+.form-control.ng-invalid-pattern {
   border-color: red;
 }
 
@@ -194,6 +194,12 @@ form[name="newProduct"]>div:first-child {
 
 form[name="newProduct"]>div:last-child {
   margin-bottom: 0;
+}
+
+form[name="newProduct"] label:after {
+  content: "*";
+  color: red;
+  margin-left: 5px;
 }
 
 div.popup-controls {
