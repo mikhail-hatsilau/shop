@@ -5,9 +5,9 @@
 
   app.factory("Api", ApiFactory);
 
-  ApiFactory.$inject = ['$resource', '$http', '$cookies'];
+  ApiFactory.$inject = ['$resource', '$http'];
 
-  function ApiFactory($resource, $http, $cookies){
+  function ApiFactory($resource, $http){
 
     var api = {
       products: function(token){
