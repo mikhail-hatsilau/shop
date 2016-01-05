@@ -206,3 +206,28 @@ div.popup-controls {
   text-align: right;
   padding-top: 20px;
 }
+
+.login-form {
+  background: white;
+  margin: 0 auto;
+  margin-top: 70px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  width: 300px;
+}
+
+.login-form .btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.logout {
+  margin-left: 10px;
+}

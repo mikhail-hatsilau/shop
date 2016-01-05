@@ -4,10 +4,12 @@
 
   app.controller("OrdersController", OrdersController);
 
-  OrdersController.$inject = ['$scope', 'Api', 'users', '$cacheFactory'];
+  OrdersController.$inject = ['$scope', 'Api', '$cacheFactory', '$rootScope'];
 
-  function OrdersController($scope, Api, users, $cacheFactory){
-    $scope.orders = Api.orders.query();
+  function OrdersController($scope, Api, $cacheFactory, $rootScope){
+    var token = $rootScope.token;
+
+    $scope.orders = Api.orders(token).query();
 
     $scope.removeOrder = removeOrder;
 

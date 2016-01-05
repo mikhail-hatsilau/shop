@@ -5,18 +5,19 @@
 
   app.controller("ProductsController", ProductsController);
 
-  ProductsController.$inject = ['$scope', 'Api', 'users', '$uibModal', '$cacheFactory', 'localStorageService'];
+  ProductsController.$inject = ['$scope', 'Api', '$rootScope', '$uibModal', '$cacheFactory', 'localStorageService'];
 
-  function ProductsController($scope, Api, users, $uibModal, $cacheFactory, localStorageService){
+  function ProductsController($scope, Api, $rootScope, $uibModal, $cacheFactory, localStorageService){
 
     var cache = $cacheFactory.get('productsCache'),
-        selectedKey = 'selectedItem';
+        selectedKey = 'selectedItem',
+        token = $rootScope.token;
 
     if (angular.isUndefined(cache)){
       cache = $cacheFactory('productsCache');
     } 
 
-    $scope.categories = Api.categories.query(function(){
+    $scope.categories = Api.categories(token).query(function(){
       if ($scope.categories){
         $scope.selected = localStorageService.get(selectedKey);
         if (angular.isUndefined($scope.selected) || $scope.selected === null){
@@ -52,7 +53,7 @@
       $scope.meta = cache.get('meta');
 
       if (angular.isUndefined($scope.products) && angular.isUndefined($scope.meta)) {
-        Api.products.query({
+        Api.products(token).query({
           category__id: $scope.selected.id
         }, function(data){
           $scope.products = data.objects;
@@ -68,9 +69,8 @@
     $scope.updateCategory = updateCategory;
 
     function addToCart(product){
-      var order = new Api.orders();
-
-      order.user = users[0].resource_uri;
+      var order = new (Api.orders(token))();
+      order.user = $rootScope.user.resource_uri;
       order.product = product.resource_uri;
       order.date = new Date();
 
@@ -86,8 +86,8 @@
             templateUrl: 'static/templates/new-product.html',
             controller: 'NewProductController',
             resolve: {
-              users: function(){
-                return users;
+              user: function(){
+                return $rootScope.user;
               },
               productsCategories: function(){
                 return $scope.categories;
@@ -108,7 +108,7 @@
     function pageChanged(){
       var offset = $scope.meta.limit * ($scope.currentPage - 1),
           limit = $scope.meta.limit
-      Api.products.query({
+      Api.products(token).query({
         category__id: $scope.selected.id,
         limit: limit,
         offset: offset

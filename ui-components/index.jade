@@ -8,7 +8,7 @@ html(lang="en", ng-app="shopApp")
     link(rel="stylesheet", href="styles/styles.css")
     //endbuild
   body
-    .page-wrapper
+    .page-wrapper(ng-controller="MainController")
       .header
         .navbar.navbar-default
           .container
@@ -25,13 +25,14 @@ html(lang="en", ng-app="shopApp")
               a.navbar-brand(href="#") Shop
             #bs-example-navbar-collapse-1.collapse.navbar-collapse
               ul.nav.navbar-nav
-                li
+                li(ng-if="user")
                   a(href="#", ui-sref="main.orders").
                     #[span.glyphicon.glyphicon-shopping-cart]
                     My orders
-              span.navbar-text.navbar-right.
+              .navbar-text.navbar-right(ng-if="user").
                 Welcome:
                 #[span(ng-bind="user.username")]
+                #[a.logout(href="" ng-click="logout()") Logout]
       .content
         .container(ui-view)
     .footer
@@ -41,10 +42,13 @@ html(lang="en", ng-app="shopApp")
     script(src="scripts/coffeeScripts.js")
     script(src="scripts/modules/app.module.js")
     script(src="scripts/services/api.service.js")
+    script(src="scripts/services/login.service.js")
     script(src="scripts/controllers/products.controller.js")
     script(src="scripts/controllers/productDetails.controller.js")
     script(src="scripts/controllers/orders.controller.js")
     script(src="scripts/controllers/newProduct.controller.js")
+    script(src="scripts/controllers/login.controller.js")
+    script(src="scripts/controllers/main.controller.js")
     script(src="scripts/app.js")
     //endbuild
 
