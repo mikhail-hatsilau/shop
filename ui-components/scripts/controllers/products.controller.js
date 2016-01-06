@@ -10,14 +10,13 @@
   function ProductsController($scope, Api, $rootScope, $uibModal, $cacheFactory, localStorageService){
 
     var cache = $cacheFactory.get('productsCache'),
-        selectedKey = 'selectedItem',
-        token = $rootScope.token;
+        selectedKey = 'selectedItem';
 
     if (angular.isUndefined(cache)){
       cache = $cacheFactory('productsCache');
     } 
 
-    $scope.categories = Api.categories(token).query(function(){
+    $scope.categories = Api.categories.query(function(){
       if ($scope.categories){
         $scope.selected = localStorageService.get(selectedKey);
         if (angular.isUndefined($scope.selected) || $scope.selected === null){
@@ -53,7 +52,7 @@
       $scope.meta = cache.get('meta');
 
       if (angular.isUndefined($scope.products) && angular.isUndefined($scope.meta)) {
-        Api.products(token).query({
+        Api.products.query({
           category__id: $scope.selected.id
         }, function(data){
           $scope.products = data.objects;
@@ -69,7 +68,7 @@
     $scope.updateCategory = updateCategory;
 
     function addToCart(product){
-      var order = new (Api.orders(token))();
+      var order = new Api.orders();
       order.user = $rootScope.user.resource_uri;
       order.product = product.resource_uri;
       order.date = new Date();
@@ -108,7 +107,7 @@
     function pageChanged(){
       var offset = $scope.meta.limit * ($scope.currentPage - 1),
           limit = $scope.meta.limit
-      Api.products(token).query({
+      Api.products.query({
         category__id: $scope.selected.id,
         limit: limit,
         offset: offset

@@ -21,7 +21,6 @@
         }
         localStorageService.clearAll();
         delete $rootScope.user;
-        delete $rootScope.token;
         $state.go('login');
       }
  

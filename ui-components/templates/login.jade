@@ -5,4 +5,4 @@
     label(for="password") Password:
     input#password.form-control(type="password", ng-model="password", required)
     .error(ng-show="error") {{error}}
-    input.btn.btn-primary(type="submit" ng-disabled="loginForm.$invalid", value="Sign in")
+    input.btn.btn-primary(type="submit", ng-disabled="loginForm.$invalid", value="Sign in")

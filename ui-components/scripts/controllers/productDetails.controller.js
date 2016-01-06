@@ -5,10 +5,9 @@
 
   app.controller("ProductDetailsController", ProductDetailsController);
 
-  ProductDetailsController.$inject = ['$scope', '$stateParams', 'Api', '$rootScope'];
+  ProductDetailsController.$inject = ['$scope', '$stateParams', 'Api'];
 
-  function ProductDetailsController($scope, $stateParams, Api, $rootScope) {
-  	var token = $rootScope.token;
-    $scope.product = Api.products(token).get({id: $stateParams.id});
+  function ProductDetailsController($scope, $stateParams, Api) {
+    $scope.product = Api.products.get({id: $stateParams.id});
   }
 })();

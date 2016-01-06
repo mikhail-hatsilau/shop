@@ -25,6 +25,21 @@ class UserResource(ModelResource):
                                                         'is_seller')
         return bundle
 
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/logged/$" % self._meta.resource_name,
+                self.wrap_view('get_logged_user'), name="logged")
+        ]
+
+    def get_logged_user(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+
+        user_bundle = self.build_bundle(request=request, obj=request.user)
+        user_json = self.serialize(None,
+                                   self.full_dehydrate(user_bundle),
+                                   "application/json")
+        return self.create_response(request, {'user': user_json})
+
 
 class LoginResource(ModelResource):
 

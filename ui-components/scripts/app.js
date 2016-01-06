@@ -12,24 +12,17 @@
       abstract: true,
       template: "<ui-view>",
       resolve: {
-        auth: ["$rootScope", "Api", '$q', '$state', '$timeout', '$cookies', function($rootScope, Api, $q, $state, $timeout, $cookies) {
-          var deferred = $q.defer(),
-              sessionId = $cookies.get('sessionid');
+        auth: ["$rootScope", "Api", '$timeout', '$cookies', '$location', function($rootScope, Api, $timeout, $cookies, $location) {
+            var sessionId = $cookies.get('sessionid');
 
-          $timeout(function(){
             if (!sessionId){      
-              $state.go('login');
-              deferred.reject();
+              $location.url('/login');
             } else {
-              $rootScope.token = $cookies.get('csrftoken');
-              Api.users($rootScope.token).query(function(users){
-                $rootScope.user = users[0];
-                deferred.resolve(users);
+              Api.loggedUser.get(function(data){
+                $rootScope.user = data;
+                return data;
               });
             }
-          });
-
-          return deferred.promise;
         }]
       }
     }).
@@ -67,4 +60,10 @@
   app.config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('ShopApp');
   }])
+
+  app.run(['$http', '$cookies', function($http, $cookies){
+    $http.defaults.headers.post['X-CSRFToken'] = $cookies.get('csrftoken');
+    $http.defaults.xsrfCookieName = 'csrftoken';
+    $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+  }]);
 })();
