@@ -59,15 +59,7 @@
           method: 'PUT',
         },
       }),
-      loggedUser: $resource("/api/v1/users/logged/", {}, {
-        get: {
-          method: 'GET',
-          transformResponse: function(data, headersGetter){
-            var dataJson = angular.fromJson(data);
-            return angular.fromJson(dataJson.user);
-          }
-        }
-      }),
+      loggedUser: $resource("/api/v1/users/logged/"),
       categories: $resource('/api/v1/categories/:id', {id: '@id'}, {
         query: {
           method: 'GET',

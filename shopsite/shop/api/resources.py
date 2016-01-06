@@ -35,10 +35,8 @@ class UserResource(ModelResource):
         self.method_check(request, allowed=['get'])
 
         user_bundle = self.build_bundle(request=request, obj=request.user)
-        user_json = self.serialize(None,
-                                   self.full_dehydrate(user_bundle),
-                                   "application/json")
-        return self.create_response(request, {'user': user_json})
+        user_json = self.full_dehydrate(user_bundle)
+        return self.create_response(request, user_json)
 
 
 class LoginResource(ModelResource):
@@ -70,12 +68,9 @@ class LoginResource(ModelResource):
                 res = UserResource()
 
                 user_bundle = res.build_bundle(request=request, obj=user)
-                user_json = res.serialize(None,
-                                          res.full_dehydrate(user_bundle),
-                                          "application/json")
+                user_json = res.full_dehydrate(user_bundle)
 
-                return self.create_response(request,
-                                            {'user': user_json})
+                return self.create_response(request, user_json)
             else:
                 not_active = {
                     'success': False,
