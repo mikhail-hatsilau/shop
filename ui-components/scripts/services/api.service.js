@@ -12,7 +12,7 @@
     var api = {
       products: $resource("/api/v1/products/:id", {id: '@id'}, {
         update: {
-          method: 'PUT'
+          method: 'PUT',
         },
 
         query: {
@@ -25,11 +25,12 @@
               return jsonData;
             },
           isArray: false,
-        }
+        },
+        
       }),
       orders: $resource("/api/v1/orders/:id", {id: '@id'}, {
         update: {
-          method: 'PUT'
+          method: 'PUT',
         },
 
         query: {
@@ -40,7 +41,8 @@
             }
           ]),
           isArray: true,
-        }
+        },
+
       }),
       users: $resource("/api/v1/users/:id", {id: '@id'}, {
         query: {
@@ -51,8 +53,13 @@
             }
           ]),
           isArray: true,
-        }
+        },
+
+        update: {
+          method: 'PUT',
+        },
       }),
+      loggedUser: $resource("/api/v1/users/logged/"),
       categories: $resource('/api/v1/categories/:id', {id: '@id'}, {
         query: {
           method: 'GET',
@@ -62,7 +69,11 @@
             }
           ]),
           isArray: true,
-        }
+        },
+
+        update: {
+          method: 'PUT',
+        },
       }),
     };
 

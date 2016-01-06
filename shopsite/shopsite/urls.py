@@ -21,12 +21,14 @@ from django.conf.urls.static import static
 from tastypie.api import Api
 from shop.api.resources import ProductResource, OrderResource
 from shop.api.resources import UserResource, CategoryResource
+from shop.api.resources import LoginResource
 
 api_v1 = Api(api_name='v1')
 api_v1.register(ProductResource())
 api_v1.register(OrderResource())
 api_v1.register(UserResource())
 api_v1.register(CategoryResource())
+api_v1.register(LoginResource())
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

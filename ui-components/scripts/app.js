@@ -12,10 +12,17 @@
       abstract: true,
       template: "<ui-view>",
       resolve: {
-        users: ["$rootScope", "Api", function($rootScope, Api) {
-          return Api.users.query(function(users){
-            $rootScope.user = users[0];
-          });
+        auth: ["$rootScope", "Api", '$timeout', '$cookies', '$location', function($rootScope, Api, $timeout, $cookies, $location) {
+            var sessionId = $cookies.get('sessionid');
+
+            if (!sessionId){      
+              $location.url('/login');
+            } else {
+              Api.loggedUser.get(function(data){
+                $rootScope.user = data;
+                return data;
+              });
+            }
         }]
       }
     }).
@@ -38,6 +45,11 @@
       url: "/product/new",
       templateUrl: "/static/templates/new-product.html",
       controller: "NewProductController"
+    }).
+    state("login", {
+      url: '/login',
+      templateUrl: '/static/templates/login.html',
+      controller: 'LoginController'
     });
   }]);
 
@@ -48,4 +60,10 @@
   app.config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('ShopApp');
   }])
+
+  app.run(['$http', '$cookies', function($http, $cookies){
+    $http.defaults.headers.post['X-CSRFToken'] = $cookies.get('csrftoken');
+    $http.defaults.xsrfCookieName = 'csrftoken';
+    $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+  }]);
 })();

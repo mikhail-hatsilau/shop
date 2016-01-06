@@ -1,19 +1,22 @@
 (function(){
+  'use strict'
 
   var app = angular.module("shopApp");
 
   app.controller("OrdersController", OrdersController);
 
-  OrdersController.$inject = ['$scope', 'Api', 'users', '$cacheFactory'];
+  OrdersController.$inject = ['$scope', 'Api', '$cacheFactory'];
 
-  function OrdersController($scope, Api, users, $cacheFactory){
+  function OrdersController($scope, Api, $cacheFactory){
+
     $scope.orders = Api.orders.query();
 
     $scope.removeOrder = removeOrder;
 
     function removeOrder(order){
       order.$delete(function(data){
-        var cache = $cacheFactory.get('productsCache');
+        var cache = $cacheFactory.get('productsCache'),
+            orderIndex;
         if (!angular.isUndefined(cache)) {
           cache.removeAll();
         }

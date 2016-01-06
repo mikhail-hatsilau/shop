@@ -5,9 +5,9 @@
 
   app.controller("ProductsController", ProductsController);
 
-  ProductsController.$inject = ['$scope', 'Api', 'users', '$uibModal', '$cacheFactory', 'localStorageService'];
+  ProductsController.$inject = ['$scope', 'Api', '$rootScope', '$uibModal', '$cacheFactory', 'localStorageService'];
 
-  function ProductsController($scope, Api, users, $uibModal, $cacheFactory, localStorageService){
+  function ProductsController($scope, Api, $rootScope, $uibModal, $cacheFactory, localStorageService){
 
     var cache = $cacheFactory.get('productsCache'),
         selectedKey = 'selectedItem';
@@ -69,8 +69,7 @@
 
     function addToCart(product){
       var order = new Api.orders();
-
-      order.user = users[0].resource_uri;
+      order.user = $rootScope.user.resource_uri;
       order.product = product.resource_uri;
       order.date = new Date();
 
@@ -86,8 +85,8 @@
             templateUrl: 'static/templates/new-product.html',
             controller: 'NewProductController',
             resolve: {
-              users: function(){
-                return users;
+              user: function(){
+                return $rootScope.user;
               },
               productsCategories: function(){
                 return $scope.categories;

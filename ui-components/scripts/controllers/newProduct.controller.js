@@ -5,9 +5,10 @@
 
   app.controller('NewProductController', NewProductController);
 
-  NewProductController.$inject = ['$scope', 'Api', 'users', 'productsCategories', '$uibModalInstance'];
+  NewProductController.$inject = ['$scope', 'Api', 'user', 'productsCategories', '$uibModalInstance'];
 
-  function NewProductController($scope, Api, users, productsCategories, $uibModalInstance){
+  function NewProductController($scope, Api, user, productsCategories, $uibModalInstance){
+
     $scope.categories = productsCategories;
     $scope.product = new Api.products();
 
