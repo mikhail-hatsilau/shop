@@ -1,39 +1,82 @@
 form(name="newProduct"
      ng-submit="save()"
      novalidate)
-  div
+  div(ng-class="{'has-error': newProduct.name.$invalid && newProduct.name.$touched}")
     label(for="product-name") Product name:
     input#product-name.form-control(
       type="text"
       placeholder="Name"
       ng-model="product.name"
+      name="name"
       required
     )
-  div
+    span(ng-show="newProduct.name.$touched && newProduct.name.$error.required") This field is required
+  div(ng-class="{'has-error': newProduct.discr.$invalid && newProduct.discr.$touched}")
     label(for="product-description") Product discription:
     input#product-description.form-control(
       type="text"
       placeholder="Discription"
       ng-model="product.discription"
+      name="discr"
       required
     )
-  div
+    span(ng-show="newProduct.discr.$touched && newProduct.discr.$error.required") This field is required
+  div(ng-class="{'has-error': newProduct.price.$invalid && newProduct.price.$touched}")
     label(for="product-price") Price:
     input#product-price.form-control(
       type="text"
       placeholder="Price"
       ng-model="product.price"
       ng-pattern="/^\\d+\\.?\\d{0,2}$/"
+      name="price"
       required
     )
-  div
+    span(ng-show="newProduct.price.$touched && newProduct.price.$error.required") This field is required
+    span(ng-show="newProduct.price.$touched && newProduct.price.$error.pattern") Wrong format of the price
+  div(ng-class="{'has-error': newProduct.fromDate.$invalid && newProduct.fromDate.$touched}")
+    label(for="from-date") From:
+    p.input-group
+      input#from-date.form-control(
+        type="text"
+        uib-datepicker-popup="{{dateFormat}}"
+        ng-model="product.from_date"
+        is-open="fromOpened"
+        min-date="minDate"
+        name="fromDate"
+        required
+      )
+      span.input-group-btn
+        button.btn.btn-default(ng-click="openFrom($event)")
+          i.glyphicon.glyphicon-calendar
+    span(ng-show="newProduct.fromDate.$touched && newProduct.fromDate.$error.required") This field is required
+    span(ng-show="newProduct.fromDate.$touched && newProduct.fromDate.$error.date") Wrong format of the date
+  div(ng-class="{'has-error': newProduct.toDate.$invalid && newProduct.toDate.$touched}")
+    label(for="to-date") To:
+    p.input-group
+      input#to-date.form-control(
+        type="text"
+        uib-datepicker-popup="{{dateFormat}}"
+        ng-model="product.to_date"
+        is-open="toOpened"
+        min-date="minDate"
+        name="toDate"
+        required
+      )
+      span.input-group-btn
+        button.btn.btn-default(ng-click="openTo($event)")
+          i.glyphicon.glyphicon-calendar
+    span(ng-show="newProduct.toDate.$touched && newProduct.toDate.$error.required") This field is required
+    span(ng-show="newProduct.toDate.$touched && newProduct.toDate.$error.date") Wrong format of the date
+  div(ng-class="{'has-error': newProduct.category.$invalid && newProduct.category.$touched}")
     label(for="product-category") Category:
     select#product-category.form-control(
       type="text"
-      ng-model="product.category",
+      ng-model="product.category"
       ng-options="item as item.name for item in categories track by item.id"
+      name="category"
       required
     )
+    span(ng-show="newProduct.category.$touched && newProduct.category.$error.required") This field is required
   .popup-controls
     input.btn.btn-primary(type="submit", value="Save", ng-disabled="newProduct.$invalid")
     input.btn.btn-danger(type="button", value="Cancel", ng-click="cancel()")
