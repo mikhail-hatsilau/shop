@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from django.conf import settings
 
 
@@ -20,8 +19,8 @@ class Product(models.Model):
                               default='static/images/default_product.png',
                               blank=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    from_date = models.DateTimeField(default=timezone.now())
-    to_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(days=7))
+    from_date = models.DateTimeField(null=True)
+    to_date = models.DateTimeField(null=True)
 
     def __unicode__(self):
         return self.name
