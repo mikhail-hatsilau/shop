@@ -196,7 +196,7 @@ form[name="newProduct"]>div:last-child {
   margin-bottom: 0;
 }
 
-form[name="newProduct"] label:after {
+form[name="newProduct"] label.required:after {
   content: "*";
   color: red;
   margin-left: 5px;

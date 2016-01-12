@@ -2,7 +2,7 @@ form(name="newProduct"
      ng-submit="save()"
      novalidate)
   div(ng-class="{'has-error': newProduct.name.$invalid && newProduct.name.$touched}")
-    label(for="product-name") Product name:
+    label.required(for="product-name") Product name:
     input#product-name.form-control(
       type="text"
       placeholder="Name"
@@ -12,7 +12,7 @@ form(name="newProduct"
     )
     span(ng-show="newProduct.name.$touched && newProduct.name.$error.required") This field is required
   div(ng-class="{'has-error': newProduct.discr.$invalid && newProduct.discr.$touched}")
-    label(for="product-description") Product discription:
+    label.required(for="product-description") Product discription:
     input#product-description.form-control(
       type="text"
       placeholder="Discription"
@@ -22,7 +22,7 @@ form(name="newProduct"
     )
     span(ng-show="newProduct.discr.$touched && newProduct.discr.$error.required") This field is required
   div(ng-class="{'has-error': newProduct.price.$invalid && newProduct.price.$touched}")
-    label(for="product-price") Price:
+    label.required(for="product-price") Price:
     input#product-price.form-control(
       type="text"
       placeholder="Price"
@@ -43,12 +43,10 @@ form(name="newProduct"
         is-open="fromOpened"
         min-date="minDate"
         name="fromDate"
-        required
       )
       span.input-group-btn
         button.btn.btn-default(ng-click="openFrom($event)")
           i.glyphicon.glyphicon-calendar
-    span(ng-show="newProduct.fromDate.$touched && newProduct.fromDate.$error.required") This field is required
     span(ng-show="newProduct.fromDate.$touched && newProduct.fromDate.$error.date") Wrong format of the date
   div(ng-class="{'has-error': newProduct.toDate.$invalid && newProduct.toDate.$touched}")
     label(for="to-date") To:
@@ -60,15 +58,13 @@ form(name="newProduct"
         is-open="toOpened"
         min-date="minDate"
         name="toDate"
-        required
       )
       span.input-group-btn
         button.btn.btn-default(ng-click="openTo($event)")
           i.glyphicon.glyphicon-calendar
-    span(ng-show="newProduct.toDate.$touched && newProduct.toDate.$error.required") This field is required
     span(ng-show="newProduct.toDate.$touched && newProduct.toDate.$error.date") Wrong format of the date
   div(ng-class="{'has-error': newProduct.category.$invalid && newProduct.category.$touched}")
-    label(for="product-category") Category:
+    label.required(for="product-category") Category:
     select#product-category.form-control(
       type="text"
       ng-model="product.category"

@@ -117,9 +117,18 @@ class ProductAuthorization(Authorization):
             allowed = []
             current_date = timezone.now()
             for obj in object_list:
-                if current_date >= obj.from_date and \
-                   current_date <= obj.to_date:
+                if obj.from_date is None and obj.to_date is None:
                     allowed.append(obj)
+                elif obj.from_date is None and obj.to_date is not None:
+                    if current_date <= obj.to_date:
+                        allowed.append(obj)
+                elif obj.from_date is not None and obj.to_date is None:
+                    if current_date >= obj.from_date:
+                        allowed.append(obj)
+                else:
+                    if current_date >= obj.from_date and \
+                       current_date <= obj.to_date:
+                        allowed.append(obj)
 
             return allowed
 
@@ -132,8 +141,18 @@ class ProductAuthorization(Authorization):
 
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
             current_date = timezone.now()
-            return current_date >= bundle.obj.from_date and \
-                current_date <= bundle.obj.to_date
+            if bundle.obj.from_date is not None and \
+               bundle.obj.to_date is not None:
+                return current_date >= bundle.obj.from_date and \
+                    current_date <= bundle.obj.to_date
+            elif bundle.obj.from_date is None and \
+                    bundle.obj.to_date is not None:
+                    if current_date >= bundle.obj.to_date:
+                        return False
+            elif bundle.obj.from_date is not None and \
+                    bundle.obj.to_date is None:
+                    if current_date <= bundle.obj.from_date:
+                        return False
 
         return True
 
