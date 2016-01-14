@@ -7,13 +7,18 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0004_product_image'),
+        ('shop', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='product',
-            name='image',
-            field=models.ImageField(upload_to=b'static/images'),
+            name='from_date',
+            field=models.DateTimeField(null=True),
+        ),
+        migrations.AlterField(
+            model_name='product',
+            name='to_date',
+            field=models.DateTimeField(null=True),
         ),
     ]

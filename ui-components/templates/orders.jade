@@ -6,7 +6,7 @@
       .title
         a(href="", ui-sref="main.details({id: order.product.id})") {{order.product.name}}
       .discription {{order.product.discription}}
-      .order-date Date: {{order.date}}
+      .order-date Date: {{order.date | date: 'dd-MM-yyyy'}}
     a.remove(href="", ng-click="removeOrder(order)")
       span.glyphicon.glyphicon-remove
 div(ng-if="!orders.length") Your cart is empty

@@ -96,7 +96,7 @@
 
       modalInstance = $uibModal.open(params);
       modalInstance.result.then(function(product){
-        if ($scope.products.length < $scope.meta.limit){
+        if ($scope.products.length < $scope.meta.limit && $scope.selected.id === product.category.id){
           $scope.products.push(product);
         }
         $scope.meta.totalCount++;

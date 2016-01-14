@@ -196,10 +196,14 @@ form[name="newProduct"]>div:last-child {
   margin-bottom: 0;
 }
 
-form[name="newProduct"] label:after {
+form[name="newProduct"] label.required:after {
   content: "*";
   color: red;
   margin-left: 5px;
+}
+
+form[name="newProduct"]>div>p {
+  margin: 0;
 }
 
 div.popup-controls {
@@ -226,6 +230,10 @@ div.popup-controls {
   color: red;
   margin: 5px 0;
   text-align: center;
+}
+
+.has-error>span{
+  color: red;
 }
 
 .logout {

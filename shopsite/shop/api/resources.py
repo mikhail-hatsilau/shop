@@ -1,20 +1,20 @@
 from django.conf.urls import url
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import get_user_model
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.http import HttpForbidden, HttpNotFound
 from shop.models import Product, Order, Category
-from shop.Authorization import UserAuthorization, ProductCategoryAuthorization
-from shop.Authorization import OrderAuthorization
+from shop.Authorization import UserAuthorization, ProductAuthorization
+from shop.Authorization import OrderAuthorization, CategoryAuthorization
 import waffle
 
 
 class UserResource(ModelResource):
 
     class Meta:
-        queryset = User.objects.all()
+        queryset = get_user_model().objects.all()
         resource_name = "users"
         fields = ['id', 'username', 'email']
         authentication = SessionAuthentication()
@@ -99,31 +99,34 @@ class CategoryResource(ModelResource):
         queryset = Category.objects.all()
         resource_name = 'categories'
         authentication = SessionAuthentication()
-        authorization = ProductCategoryAuthorization()
+        authorization = CategoryAuthorization()
         filtering = {
             'id': ALL
         }
 
 
 class ProductResource(ModelResource):
-    category = fields.ToOneField(CategoryResource, 'category', full=True)
+    category = fields.ForeignKey(CategoryResource, 'category', full=True)
+    seller = fields.ForeignKey(UserResource, 'seller', full=True)
 
     class Meta:
         queryset = Product.objects.all()
         resource_name = "products"
         always_return_data = True
         authentication = SessionAuthentication()
-        authorization = ProductCategoryAuthorization()
+        authorization = ProductAuthorization()
         filtering = {
             'category': ALL_WITH_RELATIONS
         }
 
     def dehydrate(self, bundle):
         current_user = bundle.request.user
-        user_products = current_user.product_set.all()
+        user_orders = current_user.order_set.all()
 
-        if bundle.obj in user_products:
-            bundle.data['inOrder'] = True
+        for order in user_orders:
+            if bundle.obj == order.product:
+                bundle.data['inOrder'] = True
+                break
         else:
             bundle.data['inOrder'] = False
 
@@ -131,8 +134,8 @@ class ProductResource(ModelResource):
 
 
 class OrderResource(ModelResource):
-    user = fields.ToOneField(UserResource, 'user', full=True)
-    product = fields.ToOneField(ProductResource, 'product', full=True)
+    user = fields.ForeignKey(UserResource, 'user', full=True)
+    product = fields.ForeignKey(ProductResource, 'product', full=True)
 
     class Meta:
         queryset = Order.objects.all()

@@ -9,20 +9,9 @@
 
   {
     "fields": {
-      "name": "product",
-      "discription": "discription",
-      "price": "120",
-      "category": 1
-    },
-    "model": "shop.product",
-    "pk": 1
-  },
-
-  {
-    "fields": {
       "name": "is_seller",
-      "created": "2015-12-23 13:32:00",
-      "modified": "2015-12-23 13:32:00",
+      "created": "2015-12-23T13:20:30+03:00",
+      "modified": "2015-12-23T13:20:30+03:00",
       "superusers": true
     },
     "model": "waffle.flag",

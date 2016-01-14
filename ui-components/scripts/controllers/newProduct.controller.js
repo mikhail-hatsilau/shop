@@ -12,11 +12,29 @@
     $scope.categories = productsCategories;
     $scope.product = new Api.products();
 
+    $scope.minDate = new Date();
+    $scope.fromOpened = false;
+    $scope.toOpened = false;
+    $scope.dateFormat = 'dd-MM-yyyy';
+
     $scope.save = save;
     $scope.cancel = cancel;
+    $scope.openFrom = openFrom;
+    $scope.openTo = openTo;
+
+    function openFrom($event){
+      $scope.fromOpened= true;
+      $event.preventDefault();
+    }
+
+    function openTo($event){
+      $scope.toOpened= true;
+      $event.preventDefault();
+    }
 
 
     function save(){
+      $scope.product.seller = user.resource_uri;
       $scope.product.$save(function(data){
         $uibModalInstance.close(data);
       });
