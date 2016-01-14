@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.db.models import Q
 from tastypie.authorization import Authorization
 from tastypie.exceptions import Unauthorized
 import waffle
@@ -105,33 +106,22 @@ class ProductAuthorization(Authorization):
     def read_list(self, object_list, bundle):
         if waffle.flag_is_active(bundle.request, 'is_seller') and not \
            bundle.request.user.is_superuser:
-            allowed = []
-
-            for obj in object_list:
-                if obj.seller == bundle.request.user:
-                    allowed.append(obj)
-
-            return allowed
+            return object_list.filter(seller=bundle.request.user)
 
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
-            allowed = []
             current_date = timezone.now()
-            for obj in object_list:
-                if obj.from_date is None and obj.to_date is None:
-                    allowed.append(obj)
-                elif obj.from_date is None and obj.to_date is not None:
-                    if current_date <= obj.to_date:
-                        allowed.append(obj)
-                elif obj.from_date is not None and obj.to_date is None:
-                    if current_date >= obj.from_date:
-                        allowed.append(obj)
-                else:
-                    if current_date >= obj.from_date and \
-                       current_date <= obj.to_date:
-                        allowed.append(obj)
-
-            return allowed
-
+            return object_list.filter(Q(Q(from_date__lte=current_date,
+                                          to_date__gte=current_date) &
+                                        Q(from_date__isnull=False,
+                                          to_date__isnull=False)) |
+                                      Q(Q(from_date__isnull=True,
+                                          to_date__isnull=False) &
+                                        Q(to_date__gte=current_date)) |
+                                      Q(Q(from_date__isnull=False,
+                                          to_date__isnull=True) &
+                                        Q(from_date__lte=current_date)) |
+                                      Q(from_date__isnull=True,
+                                        to_date__isnull=True))
         return object_list
 
     def read_detail(self, object_list, bundle):
@@ -147,12 +137,10 @@ class ProductAuthorization(Authorization):
                     current_date <= bundle.obj.to_date
             elif bundle.obj.from_date is None and \
                     bundle.obj.to_date is not None:
-                    if current_date >= bundle.obj.to_date:
-                        return False
+                    return current_date <= bundle.obj.to_date
             elif bundle.obj.from_date is not None and \
                     bundle.obj.to_date is None:
-                    if current_date <= bundle.obj.from_date:
-                        return False
+                    return current_date >= bundle.obj.from_date
 
         return True
 
@@ -160,15 +148,7 @@ class ProductAuthorization(Authorization):
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
             raise Unauthorized()
         elif not bundle.request.user.is_superuser:
-            allowed = []
-
-            for obj in object_list:
-                if obj.seller == bundle.request.user:
-                    allowed.append(obj)
-
-            return allowed
-
-        return object_list
+            return object_list.filter(seller=bundle.request.user)
 
     def create_detail(self, object_list, bundle):
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
@@ -182,15 +162,7 @@ class ProductAuthorization(Authorization):
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
             raise Unauthorized()
         elif not bundle.request.user.is_superuser:
-            allowed = []
-
-            for obj in object_list:
-                if obj.seller == bundle.request.user:
-                    allowed.append(obj)
-
-            return allowed
-
-        return object_list
+            return object_list.filter(seller=bundle.request.user)
 
     def update_detail(self, object_list, bundle):
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
@@ -204,15 +176,7 @@ class ProductAuthorization(Authorization):
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
             raise Unauthorized()
         elif not bundle.request.user.is_superuser:
-            allowed = []
-
-            for obj in object_list:
-                if obj.seller == bundle.request.user:
-                    allowed.append(obj)
-
-            return allowed
-
-        return object_list
+            return object_list.filter(seller=bundle.request.user)
 
     def delete_detail(self, object_list, bundle):
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
@@ -245,14 +209,7 @@ class OrderAuthorization(Authorization):
 
     def update_list(self, object_list, bundle):
         if not bundle.request.user.is_superuser:
-            allowed = []
-
-            for obj in object_list:
-                if obj.user == bundle.request.user:
-                    allowed.append(obj)
-
-            return allowed
-
+            return object_list.filter(user=bundle.request.user)
         return object_list
 
     def update_detail(self, object_list, bundle):
@@ -263,13 +220,7 @@ class OrderAuthorization(Authorization):
 
     def delete_list(self, object_list, bundle):
         if not bundle.request.user.is_superuser:
-            allowed = []
-
-            for obj in object_list:
-                if obj.user == bundle.request.user:
-                    allowed.append(obj)
-
-            return allowed
+            return object_list.filter(user=bundle.request.user)
 
         return object_list
 
