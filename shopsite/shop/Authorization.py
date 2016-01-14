@@ -110,18 +110,36 @@ class ProductAuthorization(Authorization):
 
         if not waffle.flag_is_active(bundle.request, 'is_seller'):
             current_date = timezone.now()
-            return object_list.filter(Q(Q(from_date__lte=current_date,
-                                          to_date__gte=current_date) &
-                                        Q(from_date__isnull=False,
-                                          to_date__isnull=False)) |
-                                      Q(Q(from_date__isnull=True,
-                                          to_date__isnull=False) &
-                                        Q(to_date__gte=current_date)) |
-                                      Q(Q(from_date__isnull=False,
-                                          to_date__isnull=True) &
-                                        Q(from_date__lte=current_date)) |
-                                      Q(from_date__isnull=True,
-                                        to_date__isnull=True))
+            return object_list.filter(
+                Q(
+                    Q(
+                        from_date__lte=current_date,
+                        to_date__gte=current_date
+                    ) &
+                    Q(
+                        from_date__isnull=False,
+                        to_date__isnull=False
+                    )
+                ) |
+                Q(
+                    Q(
+                        from_date__isnull=True,
+                        to_date__isnull=False
+                    ) &
+                    Q(to_date__gte=current_date)
+                ) |
+                Q(
+                    Q(
+                        from_date__isnull=False,
+                        to_date__isnull=True
+                    ) &
+                    Q(from_date__lte=current_date)
+                ) |
+                Q(
+                    from_date__isnull=True,
+                    to_date__isnull=True
+                )
+            )
         return object_list
 
     def read_detail(self, object_list, bundle):
