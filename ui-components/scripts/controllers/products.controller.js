@@ -12,6 +12,8 @@
     var cache = $cacheFactory.get('productsCache'),
         selectedKey = 'selectedItem';
 
+    $scope.maxPageSize = 5;
+
     if (angular.isUndefined(cache)){
       cache = $cacheFactory('productsCache');
     } 
